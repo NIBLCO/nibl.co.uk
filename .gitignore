@@ -1,0 +1,23 @@
+# dependencies
+/node_modules/
+/vendor/
+
+# IDEs and editors
+.idea
+.vscode
+.project
+.buildpath
+.classpath
+*.launch
+.settings/
+npm-debug.log
+yarn-error.log
+
+#System Files
+.DS_Store
+Thumbs.db
+
+#Slim .gitignore
+*.db
+.php_cs.cache
+config/settings.local.php
