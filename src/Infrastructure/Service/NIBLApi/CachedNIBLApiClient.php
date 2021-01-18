@@ -44,7 +44,7 @@ final class CachedNIBLApiClient implements NIBLApiContract
         }
 
         $data = $this->apiClient->botList();
-        $this->dataCache->setItem(self::BOT_LIST_KEY, json_encode($data), ExpireKey::EXPIRE_IN_HOUR);
+        $this->dataCache->setItem(self::BOT_LIST_KEY, json_encode($data), ExpireKey::EXPIRE_IN_10_MIN);
 
         return $data;
     }
@@ -60,7 +60,7 @@ final class CachedNIBLApiClient implements NIBLApiContract
             $this->dataCache->setItem(
                 sprintf('%s_%s_%d', self::BOT_PACKS_KEY_PARTIAL, $bot->getId(), $page),
                 json_encode($data),
-                ExpireKey::EXPIRE_IN_HOUR
+                ExpireKey::EXPIRE_IN_10_MIN
             );
         } catch (NIBLApiException $exception) {
             $data = ['content' => []];
