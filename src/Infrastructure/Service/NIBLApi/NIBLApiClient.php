@@ -62,7 +62,7 @@ final class NIBLApiClient implements NIBLApiContract
     public function botPacks(Bot $bot, int $page = 0): array
     {
         try {
-            $response = $this->client->request('GET', sprintf('packs/%s/page', $bot->getId()), ['query' => ['page' => $page, 'size' => 50, 'direction' => 'DESC']]);
+            $response = $this->client->request('GET', sprintf('packs/%s/page', $bot->getId()), ['query' => ['page' => $page, 'size' => 50, 'sort' => 'number', 'direction' => 'ASC']]);
 
             return $this->validateResponse($response);
         } catch (GuzzleException $exception) {
