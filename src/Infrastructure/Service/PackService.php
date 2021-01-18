@@ -4,8 +4,11 @@ namespace App\Infrastructure\Service;
 
 use App\Domain\Bot;
 use App\Domain\Pack;
-use App\Infrastructure\Service\NIBLApi\NIBLApiContract;
+use App\Domain\QueryDto;
+use App\Domain\BotQueryDto;
+use App\Domain\SortDto;
 use App\Infrastructure\Transformer\PackTransformer;
+use App\Infrastructure\Service\NIBLApi\NIBLApiContract;
 
 final class PackService
 {
@@ -23,10 +26,10 @@ final class PackService
     /**
      * @return Pack[]
      */
-    public function latest(int $limit = 20): array
+    public function latest(SortDto $sortDto, int $limit = 20): array
     {
         $bots = $this->botService->listAll();
-        $rawData = $this->apiClient->latestPacks($limit);
+        $rawData = $this->apiClient->latestPacks($sortDto, $limit);
 
         return $this->packTransformer->transform($bots, $rawData['content']);
     }
@@ -34,10 +37,10 @@ final class PackService
     /**
      * @return Pack[]
      */
-    public function search(string $query): array
+    public function search(QueryDto $queryDto, int $page = 0): array
     {
         $bots = $this->botService->listAll();
-        $rawData = $this->apiClient->search($query);
+        $rawData = $this->apiClient->search($queryDto->getSortData(), $queryDto->getValue(), $page);
 
         return $this->packTransformer->transform($bots, $rawData['content']);
     }
@@ -45,9 +48,14 @@ final class PackService
     /**
      * @return Pack[]
      */
-    public function searchInBot(Bot $bot, string $query): array
+    public function searchInBot(Bot $bot, BotQueryDto $botQuery): array
     {
-        $rawData = $this->apiClient->searchInBot($bot, $query);
+        $rawData = $this->apiClient->searchInBot(
+            $bot,
+            $botQuery->getQueryDto()->getSortData(),
+            $botQuery->getQueryDto()->getValue(),
+            $botQuery->getPageNumber()
+        );
 
         return $this->packTransformer->transform([$bot], $rawData['content']);
     }
@@ -55,9 +63,9 @@ final class PackService
     /**
      * @return Pack[]
      */
-    public function latestBotPacks(Bot $bot, int $page): array
+    public function latestBotPacks(Bot $bot, BotQueryDto $botQuery): array
     {
-        $rawData = $this->apiClient->botPacks($bot, $page);
+        $rawData = $this->apiClient->botPacks($bot, $botQuery->getQueryDto()->getSortData(), $botQuery->getPageNumber());
 
         return $this->packTransformer->transform([$bot], $rawData['content']);
     }

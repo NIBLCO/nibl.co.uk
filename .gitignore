@@ -21,3 +21,4 @@ Thumbs.db
 *.db
 .php_cs.cache
 config/settings.local.php
+*.log
