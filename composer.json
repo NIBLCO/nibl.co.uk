@@ -17,6 +17,7 @@
         "ezyang/htmlpurifier": "^4.13",
         "guzzlehttp/guzzle": "^7.0",
         "monolog/monolog": "^2.2",
+        "myclabs/php-enum": "^1.7",
         "odan/session": "^5.1",
         "php-di/php-di": "^6.3",
         "predis/predis": "^1.1",
