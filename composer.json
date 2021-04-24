@@ -1,49 +1,61 @@
 {
-    "name": "niblco/nibl.co.uk",
-    "description": "nibl.co.uk website",
+    "name": "laravel/laravel",
     "type": "project",
-    "license": "propertiary",
-    "authors": [
-        {
-            "name": "niblco",
-            "email": "info@nibl.co.uk"
-        }
-    ],
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
     "require": {
-        "php": "^7.4|^8.0",
-        "ext-apcu": "*",
-        "ext-json": "*",
-        "ext-pdo": "*",
-        "ezyang/htmlpurifier": "^4.13",
-        "guzzlehttp/guzzle": "^7.0",
-        "monolog/monolog": "^2.2",
-        "myclabs/php-enum": "^1.7",
-        "odan/session": "^5.1",
-        "php-di/php-di": "^6.3",
-        "predis/predis": "^1.1",
-        "slim/http-cache": "^1.1",
-        "slim/psr7": "^1.3",
-        "slim/slim": "4.*",
-        "slim/twig-view": "^3.2"
+        "php": "^7.3|^8.0",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "kyslik/column-sortable": "^6.4",
+        "laravel/framework": "^8.12",
+        "laravel/tinker": "^2.5"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "roave/security-advisories": "dev-master",
-        "vimeo/psalm": "^4.1"
+        "barryvdh/laravel-ide-helper": "^2.10",
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "krlove/eloquent-model-generator": "^1.3",
+        "laravel/sail": "^1.0.1",
+        "mockery/mockery": "^1.4.2",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
         }
     },
     "config": {
+        "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
-    },
-    "scripts": {
-        "psalm": "vendor/bin/psalm",
-        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+        "sort-packages": true
     },
     "minimum-stability": "dev",
     "prefer-stable": true

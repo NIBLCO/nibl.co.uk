@@ -1,0 +1,38 @@
+@extends('layout')
+
+@section('title')
+    Bots
+@endsection
+
+@section('header')
+    Bots
+@endsection
+
+@section('content')
+<article class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4 mt-4">
+    @foreach( $bots as $bot )
+    <div class="relative inline-flex rounded-md shadow-sm">
+        <div class="w-full flex items-center px-4 py-2 border border-gray-300 text-base leading-6 font-medium rounded bg-white flex-wrap dark:bg-gray-800 dark:border-gray-700">
+            <div class="text-lg font-bold w-full"><a href="/bots/{{ $bot->name }}">{{ $bot->name }}</a></div>
+            <div class="flex w-full items-center justify-between">
+                <div>
+                    <span class="font-bold text-lg">{{ $bot->packs_count }}</span>&nbsp;<span class="text-sm">packs</span>
+                </div>
+                @if( $bot->batchenable )
+                <div class="inline-flex items-center text-gray-500">batches <svg class="ml-1 w-4 h-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+                @else
+                <div class="inline-flex items-center text-gray-500">batches <svg class="ml-1 w-4 h-4 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg></div>
+                @endif
+            </div>
+
+        </div>
+
+        <time title="Fresh. Last processed: {{ $bot->last_processed|date('Y-m-d H:i:s') }}" datetime="{{ $bot->last_processed|date('Y-m-d H:i:s') }}" class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </time>
+
+    </div>
+    @endforeach
+</article>
+@endsection
