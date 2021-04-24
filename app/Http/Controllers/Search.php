@@ -31,7 +31,7 @@ class Search extends Controller
                     ->paginate(100)
                     ->withQueryString();
             }
-            $packs->setPath('');
+
             return view('bot', [
                 'bot' => $bot,
                 'packs' => $packs,
