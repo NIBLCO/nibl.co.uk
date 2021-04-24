@@ -23,18 +23,10 @@
                 zone: '#selectable',
                 onSelect: function (e) {
                     e.querySelector("#batch").checked = true;
-                    setTimeout(function () {
-                        e.classList.remove(selectableClass);
-                    }, 1000);
                 },
                 onDeselect: function (e) {
                     e.querySelector("#batch").checked = false;
-                    setTimeout(function () {
-                        e.classList.remove(selectableClass);
-                    }, 1000);
                 },
-                moreUsing: 'shiftKey',
-                selectedClass: selectableClass
             });
         });
     </script>
