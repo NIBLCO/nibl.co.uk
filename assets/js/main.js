@@ -222,6 +222,31 @@ const toggleDarkModeIcon = isDarkModeEnabled => {
   showElem(lightModeIco);
 }
 
+const shiftSelect = (lastChecked, currentChecked) => {
+    let rows = document.querySelectorAll("div table tbody tr");
+    
+    let a = lastChecked.dataset.botpack;
+    let a_name = lastChecked.dataset.botname;
+
+    let b = currentChecked.dataset.botpack;
+    let b_name = currentChecked.dataset.botname;
+
+    let flag = false;
+
+    for (let i = 0; i < rows.length; i++) {
+        let input = rows[i].children[4].querySelector("label").querySelector("input");
+        let botpack = input.dataset.botpack;
+        let botname = input.dataset.botname;
+
+        if ((botpack == a && botname == a_name) || (botpack == b && botname == b_name)) {
+            flag = !flag;
+        }
+
+        if (flag) input.checked = true;
+    }
+}
+
+var lastChecked;
 document.addEventListener('click', event => {
     if (event.target.matches('.copy-data')) {
         event.preventDefault();
@@ -251,6 +276,15 @@ document.addEventListener('click', event => {
     if (event.target.matches('#toggle-dark-mode')) {
       event.preventDefault();
       toggleDarkMode();
+    }
+
+    if (event.target.matches(".form-tick")) {
+        if (event.shiftKey) {
+            let currentChecked = event.target;
+            lastChecked !== null && shiftSelect(lastChecked, currentChecked);
+        } else {
+            lastChecked = event.target;
+        }
     }
 }, false);
 

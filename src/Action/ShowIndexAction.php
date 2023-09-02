@@ -28,7 +28,7 @@ final class ShowIndexAction extends AbstractAction
             'index.html.twig',
             [
                 'latest' => $this->packService->latest(SortDto::fromRequest($request->getQueryParams())),
-                'news' => $this->newsService->getLatestNews()
+                'news' => $this->newsService->getLatestNews(),
             ]
         );
     }
