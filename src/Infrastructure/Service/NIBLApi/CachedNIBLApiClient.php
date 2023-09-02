@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Service\NIBLApi;
 
 use App\Domain\Bot;
+use App\Domain\SortDto;
 use App\Exception\NIBLApiException;
 use App\Infrastructure\Service\Cache\DataCache;
 use App\Infrastructure\Service\Cache\ExpireKey;
@@ -25,13 +26,13 @@ final class CachedNIBLApiClient implements NIBLApiContract
         $this->logger = $logger;
     }
 
-    public function latestPacks(int $limit = 20): array
+    public function latestPacks(SortDto $sortDto, int $limit = 20): array
     {
         if ($dataRaw = $this->dataCache->getItem(self::LATEST_PACKS_KEY)) {
             return json_decode($dataRaw, true);
         }
 
-        $data = $this->apiClient->latestPacks($limit);
+        $data = $this->apiClient->latestPacks($sortDto, $limit);
         $this->dataCache->setItem(self::LATEST_PACKS_KEY, json_encode($data), ExpireKey::EXPIRE_IN_10_MIN);
 
         return $data;
@@ -49,16 +50,16 @@ final class CachedNIBLApiClient implements NIBLApiContract
         return $data;
     }
 
-    public function botPacks(Bot $bot, int $page = 0): array
+    public function botPacks(Bot $bot, SortDto $sortDto, int $page = 0): array
     {
         if ($dataRaw = $this->dataCache->getItem(sprintf('%s_%s', self::BOT_PACKS_KEY_PARTIAL, $bot->getId()))) {
             return json_decode($dataRaw, true);
         }
 
         try {
-            $data = $this->apiClient->botPacks($bot, $page);
+            $data = $this->apiClient->botPacks($bot, $sortDto, $page);
             $this->dataCache->setItem(
-                sprintf('%s_%s_%d', self::BOT_PACKS_KEY_PARTIAL, $bot->getId(), $page),
+                sprintf('%s_%s_%d_%s_%s', self::BOT_PACKS_KEY_PARTIAL, $bot->getId(), $page, (string) $sortDto->getDirection(), $sortDto->getBy()),
                 json_encode($data),
                 ExpireKey::EXPIRE_IN_10_MIN
             );
@@ -70,13 +71,13 @@ final class CachedNIBLApiClient implements NIBLApiContract
         return $data;
     }
 
-    public function search(string $query): array
+    public function search(SortDto $sortDto, string $query, int $page = 0): array
     {
-        return $this->apiClient->search($query);
+        return $this->apiClient->search($sortDto, $query, $page);
     }
 
-    public function searchInBot(Bot $bot, string $query): array
+    public function searchInBot(Bot $bot, SortDto $sortDto, string $query, int $page = 0): array
     {
-        return $this->apiClient->searchInBot($bot, $query);
+        return $this->apiClient->searchInBot($bot, $sortDto, $query, $page);
     }
 }

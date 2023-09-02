@@ -7,10 +7,12 @@ use App\Infrastructure\Service\HTMLPurify;
 final class QueryDto
 {
     private ?string $query;
+    private SortDto $sortDto;
 
-    private function __construct(?string $query)
+    private function __construct(?string $query, SortDto $sortDto)
     {
         $this->query = $query;
+        $this->sortDto = $sortDto;
     }
 
     public function getValue(): ?string
@@ -26,7 +28,7 @@ final class QueryDto
             $query = HTMLPurify::purify($rawQuery);
         }
 
-        return new self($query);
+        return new self($query, SortDto::fromRequest($params));
     }
 
     /** Check if clean query can be send to API */
@@ -37,5 +39,10 @@ final class QueryDto
         }
 
         return strlen($this->query) > 2;
+    }
+
+    public function getSortData(): SortDto
+    {
+        return $this->sortDto;
     }
 }

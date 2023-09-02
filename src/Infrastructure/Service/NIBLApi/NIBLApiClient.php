@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Service\NIBLApi;
 
 use App\Domain\Bot;
+use App\Domain\SortDto;
 use App\Exception\NIBLApiException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
@@ -27,10 +28,10 @@ final class NIBLApiClient implements NIBLApiContract
     /**
      * @throws NIBLApiException
      */
-    public function latestPacks(int $limit = 20): array
+    public function latestPacks(SortDto $sortDto, int $limit = 20): array
     {
         try {
-            $response = $this->client->request('GET', 'latest', ['query' => ['limit' => $limit]]);
+            $response = $this->client->request('GET', 'latest', ['query' => ['limit' => $limit, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]);
 
             return $this->validateResponse($response);
         } catch (GuzzleException $exception) {
@@ -59,10 +60,14 @@ final class NIBLApiClient implements NIBLApiContract
     /**
      * @throws NIBLApiException
      */
-    public function botPacks(Bot $bot, int $page = 0): array
+    public function botPacks(Bot $bot, SortDto $sortDto, int $page = 0): array
     {
         try {
-            $response = $this->client->request('GET', sprintf('packs/%s/page', $bot->getId()), ['query' => ['page' => $page, 'size' => 50, 'sort' => 'number', 'direction' => 'ASC']]);
+            $response = $this->client->request(
+                'GET',
+                sprintf('packs/%s/page', $bot->getId()),
+                ['query' => ['page' => $page, 'size' => 50, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
+            );
 
             return $this->validateResponse($response);
         } catch (GuzzleException $exception) {
@@ -75,10 +80,14 @@ final class NIBLApiClient implements NIBLApiContract
     /**
      * @throws NIBLApiException
      */
-    public function search(string $query): array
+    public function search(SortDto $sortDto, string $query, int $page = 0): array
     {
         try {
-            $response = $this->client->request('GET', 'search', ['query' => ['query' => $query]]);
+            $response = $this->client->request(
+                'GET',
+                'search/page',
+                ['query' => ['page' => $page, 'query' => $query, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
+            );
 
             return $this->validateResponse($response);
         } catch (GuzzleException $exception) {
@@ -91,10 +100,14 @@ final class NIBLApiClient implements NIBLApiContract
     /**
      * @throws NIBLApiException
      */
-    public function searchInBot(Bot $bot, string $query): array
+    public function searchInBot(Bot $bot, SortDto $sortDto, string $query, int $page = 0): array
     {
         try {
-            $response = $this->client->request('GET', sprintf('search/%s', $bot->getId()), ['query' => ['query' => $query]]);
+            $response = $this->client->request(
+                'GET',
+                sprintf('search/%s/page', $bot->getId()),
+                ['query' => ['page' => $page, 'query' => $query, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
+            );
 
             return $this->validateResponse($response);
         } catch (GuzzleException $exception) {

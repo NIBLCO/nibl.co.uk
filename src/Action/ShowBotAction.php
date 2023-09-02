@@ -33,9 +33,9 @@ final class ShowBotAction extends AbstractAction
         $botQuery = BotQueryDto::fromRequest($request->getQueryParams());
 
         if (true === $botQuery->getQueryDto()->isValid()) {
-            $results = $this->packService->searchInBot($bot, $botQuery->getQueryDto()->getValue());
+            $results = $this->packService->searchInBot($bot, $botQuery);
         } else {
-            $lastPacks = $this->packService->latestBotPacks($bot, $botQuery->getPageNumber());
+            $lastPacks = $this->packService->latestBotPacks($bot, $botQuery);
         }
 
         return $this->responder->render(

@@ -2,6 +2,7 @@
 
 namespace App\Action;
 
+use App\Domain\SortDto;
 use App\Infrastructure\Service\PackService;
 use App\Infrastructure\Service\SiteNewsService;
 use App\Responder\Responder;
@@ -25,7 +26,10 @@ final class ShowIndexAction extends AbstractAction
         return $this->responder->render(
             $response,
             'index.html.twig',
-            ['latest' => $this->packService->latest(20), 'news' => $this->newsService->getLatestNews()]
+            [
+                'latest' => $this->packService->latest(SortDto::fromRequest($request->getQueryParams())),
+                'news' => $this->newsService->getLatestNews(),
+            ]
         );
     }
 }
