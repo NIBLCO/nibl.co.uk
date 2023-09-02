@@ -3,12 +3,12 @@
 namespace App\Infrastructure\Service;
 
 use App\Domain\Bot;
+use App\Domain\BotQueryDto;
 use App\Domain\Pack;
 use App\Domain\QueryDto;
-use App\Domain\BotQueryDto;
 use App\Domain\SortDto;
-use App\Infrastructure\Transformer\PackTransformer;
 use App\Infrastructure\Service\NIBLApi\NIBLApiContract;
+use App\Infrastructure\Transformer\PackTransformer;
 
 final class PackService
 {
