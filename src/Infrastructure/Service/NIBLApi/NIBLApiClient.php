@@ -66,7 +66,7 @@ final class NIBLApiClient implements NIBLApiContract
             $response = $this->client->request(
                 'GET',
                 sprintf('packs/%s/page', $bot->getId()),
-                ['query' => ['page' => $page, 'size' => 50, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
+                ['query' => ['page' => $page, 'size' => 1000, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
             );
 
             return $this->validateResponse($response);
@@ -86,7 +86,7 @@ final class NIBLApiClient implements NIBLApiContract
             $response = $this->client->request(
                 'GET',
                 'search/page',
-                ['query' => ['page' => $page, 'query' => $query, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
+                ['query' => ['page' => $page, 'size' => 1000, 'query' => $query, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
             );
 
             return $this->validateResponse($response);
@@ -106,7 +106,7 @@ final class NIBLApiClient implements NIBLApiContract
             $response = $this->client->request(
                 'GET',
                 sprintf('search/%s/page', $bot->getId()),
-                ['query' => ['page' => $page, 'query' => $query, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
+                ['query' => ['page' => $page, 'size' => 1000, 'query' => $query, 'sort' => $sortDto->getBy(), 'direction' => (string) $sortDto->getDirection()]]
             );
 
             return $this->validateResponse($response);
