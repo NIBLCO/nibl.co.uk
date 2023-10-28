@@ -234,7 +234,8 @@ const shiftSelect = (lastChecked, currentChecked) => {
     let flag = false;
 
     for (let i = 0; i < rows.length; i++) {
-        let input = rows[i].children[4].querySelector("label").querySelector("input");
+        let children = rows[i].children[4] == undefined ? rows[i].children[3] : rows[i].children[4];
+        let input = children.querySelector("label").querySelector("input");
         let botpack = input.dataset.botpack;
         let botname = input.dataset.botname;
 
