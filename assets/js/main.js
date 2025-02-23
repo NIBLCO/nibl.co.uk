@@ -247,6 +247,22 @@ const shiftSelect = (lastChecked, currentChecked) => {
     }
 }
 
+const sortTable = (table, col, reverse) => {
+    var tb = table.tBodies[0],
+        tr = Array.prototype.slice.call(tb.rows, 0),
+        i;
+    reverse = -((+reverse) || -1);
+    tr = tr.sort(function (a, b) {
+        return reverse
+            * (a.cells[col].textContent.trim()
+               .localeCompare(b.cells[col].textContent.trim())
+              );
+    });
+    for(i = 0; i < tr.length; ++i) tb.appendChild(tr[i]);
+}
+let table = document.querySelectorAll("div table")[0];
+sortTable(table, 0, true);
+
 var lastChecked;
 document.addEventListener('click', event => {
     if (event.target.matches('.copy-data')) {
