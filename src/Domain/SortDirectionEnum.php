@@ -5,6 +5,7 @@ namespace App\Domain;
 use MyCLabs\Enum\Enum;
 
 /**
+ * @psalm-immutable
  * @method static SortDirectionEnum ASC()
  * @method static SortDirectionEnum DESC()
  */

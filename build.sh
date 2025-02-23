@@ -1,5 +1,5 @@
 #!/bin/bash
-docker build -f Dockerfile -t devniblcouk .
-docker stop devniblcouk
-docker rm devniblcouk
-docker run -d --net='my-bridge' -v '/opt/dev.nibl.co.uk/var':'/var/www/html/var':'rw' --name=devniblcouk devniblcouk
+docker build -f Dockerfile -t niblcouk .
+docker stop niblcouk
+docker rm niblcouk
+docker run -d --net='my-bridge' -v '/opt/nibl.co.uk/var':'/var/www/html/var':'rw' --name=niblcouk niblcouk

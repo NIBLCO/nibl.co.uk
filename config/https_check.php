@@ -8,7 +8,7 @@ return static function () {
 
     if ((! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && 'https' === $_SERVER['HTTP_X_FORWARDED_PROTO'])
         || (! empty($_SERVER['HTTP_X_FORWARDED_SSL']) && 'on' === $_SERVER['HTTP_X_FORWARDED_SSL'])) {
-        define('HTTPS_ENABLED', true);
+        //define('HTTPS_ENABLED', true);
 
         return true;
     }
